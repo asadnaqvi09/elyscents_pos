@@ -1,1 +1,18 @@
-<?php // DB connection ?>
+<?php
+$host     = 'localhost';
+$db       = 'elyscents_pos';
+$user     = 'root';
+$pass     = '';
+$charset  = 'utf8mb4';
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Agar error aaye toh exception throw kare
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,      // Data ko array ki shakal mein laaye
+    PDO::ATTR_EMULATE_PREPARES   => false,                 // SQL injection se hifazat ke liye
+];
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    die("Database se rabta nahi ho saka: " . $e->getMessage());
+}
+return $pdo;
