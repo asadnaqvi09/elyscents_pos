@@ -1,0 +1,1 @@
+<?php // Printable receipt template ?>

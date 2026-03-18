@@ -1,0 +1,1 @@
+<?php // Receive offline data ?>
