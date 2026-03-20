@@ -1,1 +1,1 @@
-<?php // Store configuration ?>
+<?php // More Page configuration ?>

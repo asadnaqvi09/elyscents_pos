@@ -1,1 +1,48 @@
-/* Tailwind base */
+@import "tailwindcss";
+
+/* 1. Fonts Setup */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap");
+
+/* 2. Figma Theme Tokens */
+@theme inline {
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui;
+  --font-urdu: "Noto Nastaliq Urdu", serif;
+
+  /* Brand Colors from Figma */
+  --color-primary: #7c3aed;
+  --color-primary-dark: #5b21b6;
+  --color-primary-light: #ddd6fe;
+  --color-secondary: #f59e0b;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-offline: #6366f1;
+
+  /* Surface & UI Colors */
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-border: #e2e8f0;
+  --color-input-background: #f3f3f5;
+
+  /* Radius & Shadows */
+  --radius-lg: 0.625rem;
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.07);
+}
+
+/* 3. Global Base Styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-text-primary font-sans antialiased overflow-hidden;
+  }
+  /* Tabular figures for clean prices */
+  .font-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}

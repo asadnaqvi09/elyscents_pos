@@ -1,0 +1,24 @@
+{
+  "name": "elyscent_pos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "service-worker.js",
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./css/tailwind.css -o ./css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asadnaqvi09/elyscents_pos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/asadnaqvi09/elyscents_pos/issues"
+  },
+  "homepage": "https://github.com/asadnaqvi09/elyscents_pos#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.2.2"
+  }
+}
