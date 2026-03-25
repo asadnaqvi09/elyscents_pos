@@ -2,72 +2,84 @@
 header('Content-Type: application/json');
 require_once '../../../config/database.php';
 require_once '../../../config/environment.php';
-require_once '../../../config/constants.php';
 
+// Auth Guard: Sirf logged-in admin hi sale kar sakta hai
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Login zaroori hai']);
+    echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
     exit;
 }
 
-// Data lena (Frontend se JSON format mein aayega)
+// Frontend se JSON data lena
 $input = json_decode(file_get_contents('php://input'), true);
 
-$customer_id = $input['customer_id'] ?? null;
-$items = $input['items'] ?? []; // Array of products: [{id, qty, price}, ...]
-$subtotal = $input['subtotal'] ?? 0;
-$tax = $input['tax'] ?? 0;
-$total = $input['total'] ?? 0;
+if (!$input) {
+    echo json_encode(['success' => false, 'message' => 'Invalid data received']);
+    exit;
+}
+
+$customer_id    = $input['customer_id'] ?? null;
+$items          = $input['items'] ?? []; // Array: [{id, qty, price}, ...]
+$subtotal       = $input['subtotal'] ?? 0;
+$tax            = $input['tax'] ?? 0;
+$total          = $input['total'] ?? 0;
+$payment_method = $input['payment_method'] ?? 'Cash';
+$amount_paid    = $input['amount_paid'] ?? $total;
+$change_amount  = $amount_paid - $total;
 
 if (empty($items)) {
-    echo json_encode(['success' => false, 'message' => 'Cart khali hai']);
+    echo json_encode(['success' => false, 'message' => 'Cart is empty']);
     exit;
 }
 
 try {
-    // Transaction shuru karein (Atomic operation)
     $pdo->beginTransaction();
 
-    // 1. Transaction record save karein
-    $stmt = $pdo->prepare("INSERT INTO transactions (customer_id, items_json, subtotal, tax, total) VALUES (?, ?, ?, ?, ?)");
+    // 1. Transaction Table mein Main Record Insert karna
+    $sql = "INSERT INTO transactions 
+            (customer_id, user_id, subtotal, tax, total, payment_method, amount_paid, change_amount, items_json) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([
         $customer_id,
-        json_encode($items),
+        $_SESSION['user_id'], // Admin Asad ki ID
         $subtotal,
         $tax,
-        $total
+        $total,
+        $payment_method,
+        $amount_paid,
+        $change_amount,
+        json_encode($items) // Backup ke liye pura cart JSON mein
     ]);
+    
     $transaction_id = $pdo->lastInsertId();
 
-    // 2. Stock update karein aur har item check karein
+    // 2. Har item ka Stock update karna aur Sale Items record karna
     foreach ($items as $item) {
-        $updateStock = $pdo->prepare("UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?");
-        $updateStock->execute([$item['qty'], $item['id'], $item['qty']]);
-        
-        if ($updateStock->rowCount() == 0) {
-            throw new Exception("Product ID " . $item['id'] . " ka stock khatam hai ya kam hai");
+        // Stock check karna
+        $stk = $pdo->prepare("SELECT stock, name FROM products WHERE id = ? FOR UPDATE");
+        $stk->execute([$item['id']]);
+        $product = $stk->fetch();
+
+        if (!$product || $product['stock'] < $item['qty']) {
+            throw new Exception("Stock short for: " . ($product['name'] ?? 'ID '.$item['id']));
         }
+
+        // Stock ghatana
+        $updateStock = $pdo->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
+        $updateStock->execute([$item['qty'], $item['id']]);
     }
 
-    // 3. Customer Loyalty Points & Total Spent update karein (Agar customer select hai)
-    if ($customer_id && LOYALTY_ENABLED) {
-        $earned_points = floor($total / 100) * POINTS_PER_100;
-        
-        $updateCustomer = $pdo->prepare("UPDATE customers SET loyalty_points = loyalty_points + ?, total_spent = total_spent + ? WHERE id = ?");
-        $updateCustomer->execute([$earned_points, $total, $customer_id]);
-    }
-
-    // Sab theek raha toh commit karein
     $pdo->commit();
 
     echo json_encode([
         'success' => true,
-        'message' => 'Sale mukammal ho gayi!',
+        'message' => 'Sale successful!',
         'transaction_id' => $transaction_id,
-        'points_earned' => $earned_points ?? 0
+        'change' => $change_amount
     ]);
 
 } catch (Exception $e) {
-    // Agar koi bhi masla aaye toh sab rollback kar dein (kuch bhi save nahi hoga)
     $pdo->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Sale fail: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
