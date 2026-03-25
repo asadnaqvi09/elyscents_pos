@@ -1,9 +1,6 @@
 <div class="flex flex-col h-full bg-surface overflow-hidden" style="padding:20px;">
-    <!-- Header -->
     <h3 style="font-size:17px; font-weight:900; color:#1e293b; letter-spacing:-0.3px; margin-bottom:20px; flex-shrink:0;">Payment</h3>
-
-    <!-- Payment Method 2x2 Grid -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; flex-shrink:0;">
+    <div style="display:flex; flex-direction:column ; gap:10px; flex-shrink:0;">
         <!-- Cash -->
         <button onclick="setPayment('Cash', this)" 
                 class="pay-btn active-pay"
@@ -20,11 +17,9 @@
             <span style="font-size:13px; font-weight:700;">Card</span>
         </button>
     </div>
-
     <!-- Spacer -->
     <div class="flex-1"></div>
-
-    <!-- Checkout Button -->
+    <!-- Checkout Button; -->
     <button id="proceedCheckout" 
             onclick="processSale()"
             class="w-full active:scale-[0.98] transition-all"
@@ -38,7 +33,6 @@
 
 <script>
 window.selectedPaymentMethod = 'Cash';
-
 function setPayment(method, btn) {
     window.selectedPaymentMethod = method;
     document.querySelectorAll('.pay-btn').forEach(b => {

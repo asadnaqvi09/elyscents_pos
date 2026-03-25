@@ -16,7 +16,6 @@
                 </button>
             <?php endforeach; ?>
         </div>
-
         <div style="position:relative;">
             <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; line-height:0;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -28,7 +27,6 @@
                 onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f3f3f5';">
         </div>
     </div>
-
     <!-- Product Grid -->
     <div class="flex-1 overflow-y-auto p-3" style="scrollbar-width:thin; scrollbar-color:#e2e8f0 transparent;">
         <div id="products-display" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px;">
@@ -42,21 +40,18 @@
                  onmouseleave="this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'; this.querySelector('.hover-overlay').style.opacity='0';"
                  onmousedown="this.style.transform='scale(0.97)'"
                  onmouseup="this.style.transform='scale(1)'">
-
                 <!-- Hover Overlay -->
                 <div class="hover-overlay" style="position:absolute; inset:0; background:rgba(124,58,237,0.03); opacity:0; transition:opacity 0.2s; display:flex; align-items:center; justify-content:center; z-index:10; border-radius:20px; pointer-events:none;">
                     <div style="background:#7c3aed; color:#fff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(124,58,237,0.4);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                     </div>
                 </div>
-
                 <!-- Product Image -->
                 <div style="aspect-ratio:1/1; background:rgba(221,214,254,0.18); border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; overflow:hidden;">
                     <img src="assets/images/branding/perfume-icon.png" 
                          style="width:44px; height:44px; object-fit:contain; opacity:0.75; transition:transform 0.2s;"
                          onerror="this.style.fontSize='28px'; this.outerHTML='<span style=\'font-size:28px;\'>🧴</span>'">
                 </div>
-
                 <!-- Info -->
                 <div style="flex:1; display:flex; flex-direction:column;">
                     <h3 style="font-size:12px; font-weight:700; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.3;"><?= htmlspecialchars($p['name_en']) ?></h3>

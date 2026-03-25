@@ -1,45 +1,47 @@
 function renderTotals() {
-    const { subtotal, tax, total } = POSState.getTotals();
+    const { subtotal, total } = POSState.getTotals();
     
-    // PHP components mein IDs 'subtotal-val', 'tax-val', etc use ho rahi hain
-    const subtotalEl = document.getElementById('subtotal-val');
-    const taxEl = document.getElementById('tax-val');
-    const itemTotalEl = document.getElementById('item-total-display');
-    const checkoutTotalEl = document.getElementById('checkout-total-display');
+    const subtotalEl = document.getElementById('cart-subtotal');
+    const totalEl = document.getElementById('cart-total');
+    const checkoutDisplay = document.getElementById('checkout-total-display');
 
     if(subtotalEl) subtotalEl.innerText = `Rs. ${subtotal.toLocaleString()}`;
-    if(taxEl) taxEl.innerText = `Rs. ${tax.toLocaleString()}`;
-    if(itemTotalEl) itemTotalEl.innerText = `Rs. ${total.toLocaleString()}`;
-    if(checkoutTotalEl) checkoutTotalEl.innerText = `Rs. ${total.toLocaleString()} Checkout`;
+    if(totalEl) totalEl.innerText = `Rs. ${total.toLocaleString()}`;
+    if(checkoutDisplay) checkoutDisplay.innerText = `Rs. ${total.toLocaleString()} Checkout`;
 }
 
 function renderCart() {
-    // Apne cart_system.php wali ID yahan use karein
-    const cartContainer = document.getElementById('cart-items-container');
-    if (!cartContainer) return;
-    
+    const cartItemsList = document.getElementById('cart-items');
+    const emptyState = document.getElementById('cart-empty');
+    const cartFooter = document.getElementById('cart-footer');
+
+    if (!cartItemsList) return;
+
     if (POSState.cart.length === 0) {
-        cartContainer.innerHTML = `
-            <div class="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-30">
-                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                </div>
-                <p class="text-sm font-black text-gray-500 uppercase tracking-widest">Cart is empty</p>
-            </div>`;
+        cartItemsList.style.display = 'none';
+        cartFooter.style.display = 'none';
+        emptyState.style.display = 'flex';
         return;
     }
 
-    cartContainer.innerHTML = POSState.cart.map(item => `
-        <div class="bg-white border border-gray-100 rounded-2xl p-4 flex gap-4 shadow-sm">
-            <div class="flex-1">
-                <h4 class="text-[13px] font-bold text-gray-800">${item.name}</h4>
-                <p class="text-[12px] font-black text-primary mt-1">Rs. ${item.price.toLocaleString()}</p>
+    emptyState.style.display = 'none';
+    cartItemsList.style.display = 'flex';
+    cartFooter.style.display = 'flex';
+
+    cartItemsList.innerHTML = POSState.cart.map(item => `
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:12px; display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <div style="flex:1;">
+                <h4 style="font-size:13px; font-weight:700; color:#1e293b;">${item.name}</h4>
+                <p style="font-size:11px; color:#7c3aed; font-weight:800;">Rs. ${item.price.toLocaleString()}</p>
             </div>
-            <div class="flex items-center gap-3 bg-gray-50 px-3 py-1 rounded-xl border border-gray-100">
-                <button onclick="updateQty(${item.id}, -1)" class="text-primary font-bold hover:scale-125 transition-transform">-</button>
-                <span class="font-bold text-[13px] min-w-[20px] text-center">${item.qty}</span>
-                <button onclick="updateQty(${item.id}, 1)" class="text-primary font-bold hover:scale-125 transition-transform">+</button>
+            <div style="display:flex; align-items:center; gap:10px; background:#f3f3f5; padding:4px 10px; border-radius:10px;">
+                <button onclick="POSState.updateQty(${item.id}, -1)" style="border:none; background:transparent; cursor:pointer; font-weight:900; color:#64748b;">-</button>
+                <span style="font-size:12px; font-weight:800; min-width:15px; text-align:center;">${item.qty}</span>
+                <button onclick="POSState.updateQty(${item.id}, 1)" style="border:none; background:transparent; cursor:pointer; font-weight:900; color:#7c3aed;">+</button>
             </div>
+            <button onclick="POSState.removeItem(${item.id})" style="border:none; background:transparent; color:#94a3b8; cursor:pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
         </div>
     `).join('');
 }

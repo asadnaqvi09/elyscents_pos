@@ -1,1 +1,58 @@
-/* Print styles */
+@media screen {
+  #receipt-modal {
+    display: none;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #receipt-modal,
+  #receipt-modal * {
+    visibility: visible;
+  }
+  #receipt-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 0;
+    display: block !important;
+  }
+  @page {
+    size: auto;
+    margin: 0mm;
+  }
+}
+
+.receipt-container {
+  width: 80mm;
+  padding: 5mm;
+  font-family: "Courier New", Courier, monospace;
+  color: #000;
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.receipt-items {
+  width: 100%;
+  border-top: 1px dashed #000;
+  border-bottom: 1px dashed #000;
+  margin: 10px 0;
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 3px 0;
+}
+.receipt-total {
+  font-weight: bold;
+  font-size: 14px;
+  border-top: 1px solid #000;
+  padding-top: 5px;
+}

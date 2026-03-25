@@ -14,6 +14,7 @@ $page = $_GET['page'] ?? 'sale';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elyscents POS</title>
     <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="css/custom/print.css">
     <style>
         /* Scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -35,9 +36,10 @@ $page = $_GET['page'] ?? 'sale';
         }
         ?>
     </main>
-    <!-- <?php include 'screens/components/layout/bottom_bar.php'; ?> -->
+    <?php include 'screens/components/layout/bottom_bar.php'; ?>
     <script src="js/state.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
     <script src="js/ui-helpers.js"></script>
 </body>
 </html>
