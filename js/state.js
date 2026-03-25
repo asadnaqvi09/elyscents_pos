@@ -56,4 +56,4 @@ const POSState = {
         if (typeof renderCart === 'function') renderCart();
         if (typeof renderTotals === 'function') renderTotals();
     }
-};
+};;

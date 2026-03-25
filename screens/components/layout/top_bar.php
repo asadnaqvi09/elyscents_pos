@@ -5,7 +5,7 @@
         </div>
         <div class="flex flex-col leading-tight">
             <h1 class="text-sm font-bold text-text-primary">Elyscents</h1>
-            <p class="text-[11px] text-text-secondary">Gulberg Branch</p>
+            <p class="text-[11px] text-text-secondary">Wah Branch</p>
         </div>
         <div class="ml-3 flex items-center gap-2 bg-success/10 px-3 py-1 rounded-full border border-success/20">
             <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>

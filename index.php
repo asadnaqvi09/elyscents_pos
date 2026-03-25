@@ -37,6 +37,7 @@ $page = $_GET['page'] ?? 'sale';
         ?>
     </main>
     <?php include 'screens/components/layout/bottom_bar.php'; ?>
+    <script src="js/app.js"></script>
     <script src="js/state.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/checkout.js"></script>
