@@ -11,14 +11,12 @@
             </button>
         </div>
     </div>
-
     <div class="flex-1 overflow-y-auto" id="cart-container">
         <div id="cart-empty" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%;">
             <p style="color:#d1d5db; font-size:13px; font-weight:700;">Cart is empty</p>
         </div>
         <div id="cart-items" style="display:none; flex-direction:column; padding:12px;"></div>
     </div>
-
     <div id="cart-footer" style="display:none; border-top:1px solid #e2e8f0; padding:14px; flex-direction:column; gap:8px;">
         <div class="flex justify-between text-xs text-gray-500">
             <span>Subtotal</span>

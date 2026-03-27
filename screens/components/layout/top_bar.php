@@ -12,12 +12,10 @@
             <span class="text-[10px] font-bold text-success uppercase tracking-wide">Online</span>
         </div>
     </div>
-
     <div class="flex flex-col items-center justify-center">
         <p id="live-clock" class="text-xl font-bold text-text-primary font-tabular tracking-tight"></p>
         <p id="live-date" class="text-[11px] text-text-secondary font-medium mt-0.5"></p>
     </div>
-
     <div class="flex items-center justify-end gap-3">
         <div class="flex items-center gap-2 bg-background/60 px-3 py-1.5 rounded-xl border border-border">
             <div class="flex items-center gap-1.5 text-success">

@@ -1,10 +1,8 @@
 function renderTotals() {
     const { subtotal, total } = POSState.getTotals();
-    
     const subtotalEl = document.getElementById('cart-subtotal');
     const totalEl = document.getElementById('cart-total');
     const checkoutDisplay = document.getElementById('checkout-total-display');
-
     if(subtotalEl) subtotalEl.innerText = `Rs. ${subtotal.toLocaleString()}`;
     if(totalEl) totalEl.innerText = `Rs. ${total.toLocaleString()}`;
     if(checkoutDisplay) checkoutDisplay.innerText = `Rs. ${total.toLocaleString()} Checkout`;
@@ -14,20 +12,16 @@ function renderCart() {
     const cartItemsList = document.getElementById('cart-items');
     const emptyState = document.getElementById('cart-empty');
     const cartFooter = document.getElementById('cart-footer');
-
     if (!cartItemsList) return;
-
     if (POSState.cart.length === 0) {
         cartItemsList.style.display = 'none';
         cartFooter.style.display = 'none';
         emptyState.style.display = 'flex';
         return;
     }
-
     emptyState.style.display = 'none';
     cartItemsList.style.display = 'flex';
     cartFooter.style.display = 'flex';
-
     cartItemsList.innerHTML = POSState.cart.map(item => `
         <div style="background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:12px; display:flex; align-items:center; gap:12px; margin-bottom:8px;">
             <div style="flex:1;">

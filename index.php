@@ -16,7 +16,6 @@ $page = $_GET['page'] ?? 'sale';
     <link rel="stylesheet" href="css/output.css">
     <link rel="stylesheet" href="css/custom/print.css">
     <style>
-        /* Scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }

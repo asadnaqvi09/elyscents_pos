@@ -7,7 +7,6 @@
         ['id' => 'reports', 'label' => 'Reports', 'icon' => '📊'],
         ['id' => 'more', 'label' => 'More', 'icon' => '🔘']
     ];
-
     foreach ($nav_items as $item):
         $isActive = ($page === $item['id']);
     ?>
