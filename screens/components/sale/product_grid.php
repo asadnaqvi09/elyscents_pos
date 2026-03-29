@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full bg-surface overflow-hidden">
+<div class="flex flex-col overflow-hidden">
     <div class="p-4 border-b border-border shrink-0 space-y-3">
         <div id="category-list" class="flex gap-1" style="background:#f1f1f4; padding:4px; border-radius:12px;">
             <?php 

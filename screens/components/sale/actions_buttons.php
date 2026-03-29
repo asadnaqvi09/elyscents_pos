@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full bg-surface overflow-hidden" style="padding:20px;">
+<div class="flex flex-col overflow-hidden gap-4" style="padding:20px">
     <h3 style="font-size:17px; font-weight:900; color:#1e293b; letter-spacing:-0.3px; margin-bottom:20px; flex-shrink:0;">Payment</h3>
     <div style="display:flex; flex-direction:column ; gap:10px; flex-shrink:0;">
         <button onclick="setPayment('Cash', this)" 

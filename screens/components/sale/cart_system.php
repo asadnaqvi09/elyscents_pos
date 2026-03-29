@@ -1,6 +1,6 @@
-<div class="flex flex-col h-full bg-surface overflow-hidden">
+<div class="flex flex-col overflow-hidden">
     <div class="p-4 border-b border-border shrink-0">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center" style="justify-content: space-between">
             <div>
                 <h2 style="font-size:17px; font-weight:900; color:#1e293b;">Current Sale</h2>
                 <p style="font-size:11px; color:#94a3b8;" id="sale-number">#000000</p>

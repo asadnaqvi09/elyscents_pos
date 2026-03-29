@@ -7,7 +7,7 @@ try {
     die("Error: " . $e->getMessage());
 }
 ?>
-<div class="h-full w-full p-4 flex gap-4 overflow-hidden">
+<div class="w-full p-4 flex gap-4 overflow-hidden" style="height: 88%">
     <section style="width:40%; background:#fff; border-radius:24px; border:1px solid #e2e8f0; box-shadow:0 1px 4px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column;">
         <?php include __DIR__ . '/components/sale/product_grid.php'; ?>
     </section>
