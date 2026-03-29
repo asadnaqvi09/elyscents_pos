@@ -38,17 +38,20 @@ $page = $_GET['page'] ?? 'sale';
         }
         ?>
     </main>
-
     <?php include 'screens/components/layout/bottom_bar.php'; ?>
-   <?php include 'screens/components/inventory/product_modal.php'; ?>
-   <?php include 'screens/components/inventory/delete_confirm_modal.php'; ?>
-
+    <?php include 'screens/components/inventory/product_modal.php'; ?>
+    <?php include 'screens/components/inventory/delete_confirm_modal.php'; ?>
+    <?php include 'screens/components/customers/customer_modal.php'; ?>
+    <?php include 'screens/components/customers/delete_customer_modal.php'; ?>
     <script src="js/state.js"></script> <script src="js/app.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/checkout.js"></script>
     <script src="js/ui-helpers.js"></script>
     <?php if ($page === 'inventory'): ?>
         <script src="js/inventory-manager.js"></script>
+    <?php endif; ?>
+        <?php if ($page === 'customers'): ?>
+        <script src="js/customer-manager.js"></script>
     <?php endif; ?>
 </body>
 </html>

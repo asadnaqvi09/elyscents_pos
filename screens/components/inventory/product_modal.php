@@ -1,15 +1,6 @@
-<?php
-/**
- * product_modal.php
- * Add / Edit product modal
- * JS populates fields when editing via InventoryManager.openModal(productData)
- */
-?>
 <div id="product-modal" style="display:none; position:fixed; inset:0; z-index:9999; align-items:center; justify-content:center; background:rgba(15,23,42,0.45); backdrop-filter:blur(6px); padding:20px;">
 
     <div style="background:white; width:100%; max-width:660px; border-radius:24px; box-shadow:0 20px 60px -10px rgba(0,0,0,0.2); overflow:hidden; display:flex; flex-direction:column; animation:modalSlideUp 0.3s cubic-bezier(0.16,1,0.3,1);">
-
-        <!-- Header -->
         <div style="padding:26px 32px 20px; display:flex; justify-content:space-between; align-items:flex-start;">
             <div>
                 <h3 id="modal-title" style="margin:0; font-size:21px; font-weight:900; color:#1e293b; letter-spacing:-0.4px;">Add New Product</h3>
@@ -22,15 +13,10 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
         </div>
-
-        <!-- Form -->
         <form id="product-form" onsubmit="InventoryManager.handleSave(event)" style="padding:0 32px 30px; overflow-y:auto; max-height:75vh;">
             <!-- Hidden ID for edit mode -->
             <input type="hidden" name="id" id="modal-product-id">
-
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px 20px;">
-
-                <!-- English Name (wider) -->
                 <div style="grid-column:1; display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.4px;">Product Name (EN) *</label>
                     <input type="text" name="name_en" id="modal-name-en" required placeholder="e.g., Oud Al Layl"
@@ -38,8 +24,6 @@
                         onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.background='#f8fafc'">
                 </div>
-
-                <!-- Urdu Name -->
                 <div style="grid-column:2; display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.4px; text-align:right;">پروڈکٹ کا نام</label>
                     <input type="text" name="name_ur" id="modal-name-ur" dir="rtl" placeholder="عود اللیل"
@@ -47,8 +31,6 @@
                         onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.background='#f8fafc'">
                 </div>
-
-                <!-- Brand -->
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.4px;">Brand</label>
                     <input type="text" name="brand" id="modal-brand" placeholder="e.g., Arabiyat"
@@ -56,8 +38,6 @@
                         onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.background='#f8fafc'">
                 </div>
-
-                <!-- Category -->
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.4px;">Category</label>
                     <div style="position:relative;">
@@ -76,8 +56,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Size -->
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.4px;">Size / Volume</label>
                     <input type="text" name="size" id="modal-size" placeholder="e.g., 100ml, 50ml"
@@ -85,8 +63,6 @@
                         onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.background='#f8fafc'">
                 </div>
-
-                <!-- Stock Quantity -->
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.4px;">Stock Quantity *</label>
                     <input type="number" name="stock" id="modal-stock" value="0" min="0" required
@@ -94,8 +70,6 @@
                         onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.background='#f8fafc'">
                 </div>
-
-                <!-- Cost Price -->
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.4px;">Cost Price (Rs.) *</label>
                     <input type="number" name="cost_price" id="modal-cost-price" value="0" min="0" required
@@ -103,8 +77,6 @@
                         onfocus="this.style.borderColor='#10b981'; this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#d1fae5'; this.style.boxShadow='none'; this.style.background='#f0fdf4'">
                 </div>
-
-                <!-- Sale Price -->
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#7c3aed; text-transform:uppercase; letter-spacing:0.4px;">Sale Price (Rs.) *</label>
                     <input type="number" name="sale_price" id="modal-sale-price" value="0" min="0" required
@@ -112,8 +84,6 @@
                         onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)'; this.style.background='white'"
                         onblur="this.style.borderColor='#ede9fe'; this.style.boxShadow='none'; this.style.background='#f5f3ff'">
                 </div>
-
-                <!-- Low Stock Threshold - full width -->
                 <div style="grid-column:1 / -1; display:flex; flex-direction:column; gap:6px;">
                     <label style="font-size:11px; font-weight:800; color:#ef4444; text-transform:uppercase; letter-spacing:0.4px;">Low Stock Alert Threshold</label>
                     <input type="number" name="low_stock_threshold" id="modal-threshold" value="5" min="0"
@@ -123,8 +93,6 @@
                 </div>
 
             </div>
-
-            <!-- Footer -->
             <div style="margin-top:26px; display:flex; justify-content:flex-end; align-items:center; gap:12px;">
                 <button type="button" onclick="InventoryManager.closeModal()"
                     style="padding:12px 26px; border-radius:12px; border:1.5px solid #e2e8f0; background:white; color:#64748b; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.2s;"

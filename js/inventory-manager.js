@@ -1,15 +1,7 @@
-/**
- * inventory-manager.js
- * Synced with: get_products.php, create_product.php, update_products.php, delete_products.php
- * All endpoints use PDO + return { success, message, ... }
- */
-
 const InventoryManager = {
-
     // ─── State ────────────────────────────────────────────────
     searchTimer:     null,
     deleteProductId: null,
-
     // ─── 1. Init ──────────────────────────────────────────────
     async init() {
         console.log('[InventoryManager] Active');

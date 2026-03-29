@@ -1,9 +1,4 @@
 <?php
-/**
- * get_products.php — PDO Version
- * Synced with inventory-manager.js
- * GET ?search= ?category= ?format=stats
- */
 header('Content-Type: application/json');
 require_once '../../../config/database.php';
 require_once '../../../config/environment.php';

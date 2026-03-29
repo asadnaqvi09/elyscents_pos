@@ -17,6 +17,7 @@ CREATE TABLE customers (
     email VARCHAR(100) NULL,
     loyalty_points INT DEFAULT 0,
     total_spent DECIMAL(10,2) DEFAULT 0.00,
+    additional_notes VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

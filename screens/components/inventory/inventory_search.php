@@ -11,7 +11,6 @@
            onfocus="this.style.borderColor='#7c3aed'; this.style.boxShadow='0 0 0 4px rgba(124,58,237,0.08)'"
            onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
 
-    <!-- Shortcut Badge -->
     <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:4px; pointer-events:none;">
         <kbd style="padding:3px 7px; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; font-size:10px; font-weight:700; color:#94a3b8; font-family:monospace;">Ctrl</kbd>
         <kbd style="padding:3px 7px; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; font-size:10px; font-weight:700; color:#94a3b8; font-family:monospace;">K</kbd>

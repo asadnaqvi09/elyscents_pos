@@ -1,35 +1,58 @@
 <?php
+/**
+ * update_customer.php — PDO Version
+ * POST { id, name, phone, email, birthday, notes, loyalty_tier }
+ */
 header('Content-Type: application/json');
 require_once '../../../config/database.php';
 require_once '../../../config/environment.php';
 
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Login zaroori hai']);
+    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
 
 $id = $_POST['id'] ?? null;
-$name = $_POST['name'] ?? '';
-$phone = $_POST['phone'] ?? '';
-$email = $_POST['email'] ?? null;
-$birthday = $_POST['birthday'] ?? null;
-$preferences = $_POST['preferences'] ?? '';
-
-if (!$id || empty($name) || empty($phone)) {
-    echo json_encode(['success' => false, 'message' => 'ID, Naam aur Phone lazmi hain']);
+if (!$id) {
+    echo json_encode(['success' => false, 'message' => 'Customer ID missing.']);
     exit;
 }
 
 try {
-    $sql = "UPDATE customers SET 
-            name = ?, phone = ?, email = ?, 
-            birthday = ?, preferences = ? 
-            WHERE id = ?";
-    
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name, $phone, $email, $birthday, $preferences, $id]);
+    // ── Inputs ────────────────────────────────────────────
+    $name     = trim($_POST['name']     ?? '');
+    $phone    = trim($_POST['phone']    ?? '');
+    $email    = trim($_POST['email']    ?? '');
+    $birthday = !empty($_POST['birthday']) ? $_POST['birthday'] : null;
+    $notes    = trim($_POST['notes']    ?? '');
+    $tier     = trim($_POST['loyalty_tier'] ?? 'bronze');
 
-    echo json_encode(['success' => true, 'message' => 'Customer ki maloomat update ho gayi hain']);
+    // ── Validation ────────────────────────────────────────
+    if (empty($name) || empty($phone)) {
+        echo json_encode(['success' => false, 'message' => 'Name and Phone are required.']);
+        exit;
+    }
+
+    // ── Update Logic ──────────────────────────────────────
+    $stmt = $pdo->prepare("
+        UPDATE customers SET
+            name         = ?,
+            phone        = ?,
+            email        = ?,
+            birthday     = ?,
+            notes        = ?,
+            loyalty_tier = ?
+        WHERE id = ?
+    ");
+
+    $stmt->execute([$name, $phone, $email, $birthday, $notes, $tier, $id]);
+
+    echo json_encode(['success' => true, 'message' => 'Customer profile updated.']);
+
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Update fail: ' . $e->getMessage()]);
+    if ($e->getCode() == 23000) {
+        echo json_encode(['success' => false, 'message' => 'This phone number is already used by another customer.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
 }

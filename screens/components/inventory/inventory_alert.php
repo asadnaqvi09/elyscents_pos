@@ -1,12 +1,5 @@
 <?php
-/**
- * inventory_alerts.php
- * Low stock + Out of stock alert banners
- * Counts come from DB at page load; JS updates them after AJAX
- */
-
 require_once dirname(__DIR__, 3) . '/config/database.php';
-
 $result    = $conn->query("SELECT stock, low_stock_threshold FROM products");
 $allRows   = $result->fetch_all(MYSQLI_ASSOC);
 $lowStock  = count(array_filter($allRows, fn($p) => $p['stock'] > 0 && $p['stock'] <= $p['low_stock_threshold']));
