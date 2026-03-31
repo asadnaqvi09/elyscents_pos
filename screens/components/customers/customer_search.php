@@ -9,9 +9,9 @@
            id="customer-search" 
            class="search-input"
            oninput="CustomerManager.handleSearch()" 
-           placeholder="Search by name, phone or ID...">
+           placeholder="<?= ($lang === 'ur') ? 'نام، فون یا آئی ڈی سے تلاش کریں...' : 'Search by name, phone or ID...' ?>">
            
-    <div class="search-shortcut">
+    <div class="search-shortcut" style="<?= ($lang === 'ur') ? 'display:none;' : '' ?>">
         CTRL + K
     </div>
 </div>

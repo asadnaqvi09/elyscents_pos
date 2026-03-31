@@ -1,14 +1,15 @@
 <footer class="bottom-footer">
     <?php
     $nav_items = [
-        ['id' => 'sale', 'label' => 'Sale', 'icon' => '🛍️'],
-        ['id' => 'inventory', 'label' => 'Inventory', 'icon' => '📦'],
-        ['id' => 'customers', 'label' => 'Customers', 'icon' => '👥'],
-        ['id' => 'reports', 'label' => 'Reports', 'icon' => '📊'],
-        ['id' => 'more', 'label' => 'More', 'icon' => '🔘']
+        ['id' => 'sale',      'label' => $translations['nav']['sale'][$lang],      'icon' => '🛍️'],
+        ['id' => 'inventory', 'label' => $translations['nav']['inventory'][$lang], 'icon' => '📦'],
+        ['id' => 'customers', 'label' => $translations['nav']['customers'][$lang], 'icon' => '👥'],
+        ['id' => 'reports',   'label' => $translations['nav']['reports'][$lang],   'icon' => '📊'],
+        ['id' => 'more',      'label' => $translations['nav']['more'][$lang],      'icon' => '🔘']
     ];
+
     foreach ($nav_items as $item):
-        $isActive = ($page === $item['id']);
+        $isActive = ($page === $item['id'] || ($page === 'dashboard' && $item['id'] === 'sale'));
     ?>
         <a href="?page=<?= $item['id'] ?>" class="nav-link <?= $isActive ? 'active' : '' ?>">
             <span class="nav-icon <?= !$isActive ? 'grayscale' : '' ?>"><?= $item['icon'] ?></span>

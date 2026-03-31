@@ -1,10 +1,10 @@
 <div class="customer-header">
     <div>
         <h1 class="customer-header-title">
-            Customer Directory
+            <?= ($lang === 'ur') ? 'کسٹمر ڈائریکٹری' : 'Customer Directory' ?>
         </h1>
         <p class="customer-header-subtitle">
-            Manage loyalty points, tiers, and purchase history.
+            <?= ($lang === 'ur') ? 'لائلٹی پوائنٹس، ٹائرز اور خریداری کی ہسٹری کا انتظام کریں۔' : 'Manage loyalty points, tiers, and purchase history.' ?>
         </p>
     </div>
 
@@ -15,6 +15,6 @@
             <line x1="20" y1="8" x2="20" y2="14"/>
             <line x1="17" y1="11" x2="23" y2="11"/>
         </svg>
-        Add New Customer
+        <?= ($lang === 'ur') ? 'نیا کسٹمر شامل کریں' : 'Add New Customer' ?>
     </button>
 </div>

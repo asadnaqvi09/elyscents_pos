@@ -10,3 +10,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 define('BASE_URL', 'http://localhost/elyscents/');
 define('API_URL', BASE_URL . 'backend/api/');
+
+$translations = include __DIR__ . '/translations.php';
+$lang = $_SESSION['language'] ?? 'en';

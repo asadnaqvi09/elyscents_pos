@@ -6,20 +6,20 @@
                     <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
                 </svg>
             </div>
-            <h3 class="delete-title">Are you sure?</h3>
+            <h3 class="delete-title"><?= ($lang === 'ur') ? 'کیا آپ کو یقین ہے؟' : 'Are you sure?' ?></h3>
             <p class="delete-text">
-                This will permanently delete 
+                <?= ($lang === 'ur') ? 'یہ مستقل طور پر حذف کر دے گا ' : 'This will permanently delete ' ?>
                 <strong id="delete-product-name" class="delete-product-highlight"></strong>.
-                This action cannot be undone.
+                <?= ($lang === 'ur') ? 'اس عمل کو واپس نہیں لیا جا سکتا۔' : 'This action cannot be undone.' ?>
             </p>
         </div>
 
         <div class="delete-modal-footer">
             <button onclick="InventoryManager.closeDeleteModal()" class="btn-cancel" style="flex:1;">
-                Cancel
+                <?= ($lang === 'ur') ? 'منسوخ کریں' : 'Cancel' ?>
             </button>
             <button onclick="InventoryManager.handleDelete()" class="btn-delete-confirm">
-                Delete Product
+                <?= ($lang === 'ur') ? 'پروڈکٹ حذف کریں' : 'Delete Product' ?>
             </button>
         </div>
     </div>

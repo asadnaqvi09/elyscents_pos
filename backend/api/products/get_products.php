@@ -8,6 +8,9 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Global Language setup for this request
+$isUrdu = ($lang === 'ur');
+
 if (($_GET['format'] ?? '') === 'stats') {
     try {
         $all = $pdo->query("SELECT stock, low_stock_threshold FROM products")->fetchAll(PDO::FETCH_ASSOC);
@@ -44,23 +47,18 @@ try {
     $stmt->execute($params);
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $catLabels = [
-        'men'     => 'Men / مردانہ',
-        'women'   => 'Women / خواتین',
-        'unisex'  => 'Unisex / عام',
-        'gifts'   => 'Gifts / تحائف',
-        'testers' => 'Testers / ٹیسٹرز',
-    ];
-
     if (empty($products)) {
+        $noFoundTitle = $isUrdu ? "کوئی پروڈکٹ نہیں ملی" : "No products found";
+        $noFoundSub = $isUrdu ? "تلاش یا فلٹرز کو تبدیل کرنے کی کوشش کریں" : "Try adjusting your search or filters";
+        
         echo json_encode([
             'success' => true,
             'count'   => 0,
-            'html'    => '<div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 0;color:#94a3b8;">
-                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:20px;opacity:0.3;"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-                            <p style="font-size:16px;font-weight:800;margin:0;color:#1e293b;">No products found</p>
-                            <p style="font-size:13px;margin:8px 0 0;">Try adjusting your search or filters</p>
-                         </div>'
+            'html'    => "<div style='grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 0;color:#94a3b8;'>
+                            <svg width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' style='margin-bottom:20px;opacity:0.3;'><path d='m7.5 4.27 9 5.15'/><path d='M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z'/><path d='m3.3 7 8.7 5 8.7-5'/><path d='M12 22V12'/></svg>
+                            <p style='font-size:16px;font-weight:800;margin:0;color:#1e293b;'>{$noFoundTitle}</p>
+                            <p style='font-size:13px;margin:8px 0 0;'>{$noFoundSub}</p>
+                         </div>"
         ]);
         exit;
     }
@@ -72,12 +70,24 @@ try {
         $isOut     = $stock === 0;
         $isLow     = !$isOut && $stock <= $threshold;
 
+        // Dynamic labels based on language
+        if ($isUrdu) {
+            $badgeLabel = $isOut ? 'اسٹاک ختم' : ($isLow ? 'اسٹاک کم ہے' : 'اسٹاک میں ہے');
+            $stockStatusLabel = "اسٹاک کی صورتحال";
+            $unitLabel = "یونٹس";
+            $editLabel = "ترمیم";
+        } else {
+            $badgeLabel = $isOut ? 'Out of Stock' : ($isLow ? 'Low Stock' : 'In Stock');
+            $stockStatusLabel = "Stock Status";
+            $unitLabel = "Units";
+            $editLabel = "Edit";
+        }
+
         $badgeBg    = $isOut ? '#64748b' : ($isLow ? '#f59e0b' : '#10b981');
-        $badgeLabel = $isOut ? 'Out of Stock' : ($isLow ? 'Low Stock' : 'In Stock');
         $stockColor = $isOut ? '#ef4444' : ($isLow ? '#f59e0b' : '#10b981');
 
-        $catLabel  = $catLabels[$p['category']] ?? ucfirst((string)$p['category']);
         $salePrice = number_format((float)$p['sale_price']);
+        $displayName = ($isUrdu && !empty($p['name_ur'])) ? $p['name_ur'] : $p['name_en'];
         
         $imgUrl = !empty($p['image']) ? "assets/images/products/" . $p['image'] : "";
         $imgHtml = $imgUrl 
@@ -99,8 +109,7 @@ try {
             'low_stock_threshold' => $threshold,
         ]), ENT_QUOTES);
 
-        $nameEn = htmlspecialchars($p['name_en']);
-        $nameForJs = htmlspecialchars(json_encode($nameEn), ENT_QUOTES);
+        $nameForJs = htmlspecialchars(json_encode($displayName), ENT_QUOTES);
         $maxView = max($stock, $threshold * 2, 1);
         $pct = min(100, round(($stock / $maxView) * 100));
 
@@ -119,7 +128,7 @@ try {
             <div style="padding:18px; display:flex; flex-direction:column; flex:1;">
                 <div style="margin-bottom:12px;">
                     <div style="display:flex; justify-content:space-between; align-items:start; gap:8px;">
-                        <h3 style="margin:0; font-size:15px; font-weight:800; color:#1e293b; line-height:1.3;">{$nameEn}</h3>
+                        <h3 style="margin:0; font-size:15px; font-weight:800; color:#1e293b; line-height:1.3;">{$displayName}</h3>
                         <span style="font-size:10px; font-weight:700; color:#94a3b8; background:#f8fafc; padding:2px 6px; border-radius:6px; border:1px solid #f1f5f9;">{$p['size']}</span>
                     </div>
                     <p style="margin:4px 0 0; font-size:11px; font-weight:600; color:#64748b;">{$p['brand']} • <span style="font-family:monospace; color:#94a3b8;">{$p['sku']}</span></p>
@@ -133,8 +142,8 @@ try {
 
                     <div style="margin-bottom:16px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                            <span style="font-size:11px; font-weight:700; color:#64748b;">Stock Status</span>
-                            <span style="font-size:11px; font-weight:900; color:{$stockColor};">{$stock} Units</span>
+                            <span style="font-size:11px; font-weight:700; color:#64748b;">{$stockStatusLabel}</span>
+                            <span style="font-size:11px; font-weight:900; color:{$stockColor};">{$stock} {$unitLabel}</span>
                         </div>
                         <div style="width:100%; height:6px; background:#f1f5f9; border-radius:10px; overflow:hidden;">
                             <div style="width:{$pct}%; height:100%; background:{$stockColor}; border-radius:10px; transition:width 0.5s ease;"></div>
@@ -145,7 +154,7 @@ try {
                         <button onclick='InventoryManager.openModal({$jsData})'
                                 style="flex:1; height:38px; border-radius:12px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
-                            Edit
+                            {$editLabel}
                         </button>
                         <button onclick='InventoryManager.confirmDelete({$p['id']}, {$nameForJs})'
                                 style="width:38px; height:38px; border-radius:12px; border:none; background:#fee2e2; color:#ef4444; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;"

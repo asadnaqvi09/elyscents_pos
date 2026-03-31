@@ -1,39 +1,84 @@
-body {
-  font-family: var(--font-urdu);
+[lang="ur"] {
   direction: rtl;
+  text-align: right;
+  font-family: "Noto Nastaliq Urdu", serif;
 }
 
-.flex {
+/* Typography Adjustments */
+[lang="ur"] body {
+  line-height: 1.8;
+}
+
+/* Flexbox Mirroring */
+[lang="ur"] .flex-row {
   flex-direction: row-reverse;
 }
 
-.text-left {
+[lang="ur"] .items-start {
+  align-items: flex-end;
+}
+
+/* Input & Icons Positioning */
+[lang="ur"] .form-input,
+[lang="ur"] .input-field {
   text-align: right;
+  padding-left: 14px;
+  padding-right: 20px;
 }
 
-.text-right {
-  text-align: left;
+[lang="ur"] .icon-left {
+  margin-left: 8px;
+  margin-right: 0;
 }
 
-.ml-auto {
-  margin-right: auto;
+[lang="ur"] .icon-right {
+  margin-right: 8px;
   margin-left: 0;
 }
 
-.mr-auto {
+/* Margins & Paddings Flip */
+[lang="ur"] .ml-auto {
+  margin-right: auto;
+  margin-left: 0;
+}
+[lang="ur"] .mr-auto {
   margin-left: auto;
   margin-right: 0;
 }
 
-input,
-textarea {
-  text-align: right;
+[lang="ur"] .pl-4 {
+  padding-right: 16px;
+  padding-left: 0;
+}
+[lang="ur"] .pr-4 {
+  padding-left: 16px;
+  padding-right: 0;
 }
 
-svg {
-  transform: scaleX(-1);
+/* Sidebar/Nav Positioning */
+[lang="ur"] .sidebar {
+  border-left: 1px solid var(--border);
+  border-right: none;
 }
 
-.no-mirror {
-  transform: scaleX(1);
+/* Specific Component Fixes */
+[lang="ur"] .cart-item-price {
+  text-align: left;
+}
+
+[lang="ur"] .brand-tagline {
+  letter-spacing: 0; /* Urdu doesn't support wide tracking */
+  font-size: 13px;
+}
+
+/* Receipt RTL Fix */
+[lang="ur"] .receipt-row {
+  flex-direction: row; /* Keeping labels and values in standard positions */
+}
+
+/* Form Labels */
+[lang="ur"] .label,
+[lang="ur"] .form-label {
+  margin-right: 4px;
+  margin-left: 0;
 }

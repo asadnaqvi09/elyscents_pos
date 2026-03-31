@@ -4,10 +4,11 @@
             <?php 
             $cats = ['All', 'Men', 'Women', 'Unisex']; 
             foreach($cats as $index => $cat): 
+                $displayCat = ($lang === 'ur') ? ($translations['sale']['categories'][$cat] ?? $cat) : $cat;
             ?>
                 <button onclick="filterCategory(this, '<?= $cat ?>')" 
                     class="cat-btn <?= $index === 0 ? 'active' : '' ?>">
-                    <?= $cat ?>
+                    <?= $displayCat ?>
                 </button>
             <?php endforeach; ?>
         </div>
@@ -16,17 +17,23 @@
             <span class="search-icon">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </span>
-            <input type="text" id="productSearch" placeholder="Search products..." class="search-input">
+            <input type="text" id="productSearch" 
+                   placeholder="<?= $translations['sale']['search_prod'][$lang] ?>" 
+                   class="search-input">
         </div>
     </div>
 
     <div class="products-scroll-area no-scrollbar">
         <div id="products-display" class="products-grid-layout">
             <?php foreach ($products as $p): ?>
-            <div onclick="POSState.addToCart({id: <?= $p['id'] ?>, name: '<?= addslashes($p['name_en']) ?>', price: <?= $p['sale_price'] ?>, size: '<?= $p['size'] ?>'})" 
+            <?php 
+                $displayName = ($isUrdu && !empty($p['name_ur'])) ? $p['name_ur'] : $p['name_en'];
+            ?>
+            <div onclick="POSState.addToCart({id: <?= $p['id'] ?>, name: '<?= addslashes($displayName) ?>', price: <?= $p['sale_price'] ?>, size: '<?= $p['size'] ?>'})" 
                  class="product-card"
                  data-category="<?= htmlspecialchars($p['category'] ?? 'All') ?>"
-                 data-name="<?= strtolower(htmlspecialchars($p['name_en'])) ?>">
+                 data-name-en="<?= strtolower(htmlspecialchars($p['name_en'])) ?>"
+                 data-name-ur="<?= htmlspecialchars($p['name_ur'] ?? '') ?>">
                 
                 <div class="img-container">
                     <img src="assets/images/branding/perfume-icon.png" 
@@ -35,7 +42,7 @@
                 </div>
 
                 <div class="product-info">
-                    <h3><?= htmlspecialchars($p['name_en']) ?></h3>
+                    <h3><?= htmlspecialchars($displayName) ?></h3>
                     <p><?= htmlspecialchars($p['size']) ?></p>
                     
                     <div class="price-row">
@@ -43,7 +50,9 @@
                             <span class="price-tag">Rs. <?= number_format($p['sale_price']) ?></span>
                             <div class="stock-indicator">
                                 <span class="stock-dot" style="background: <?= ($p['stock'] ?? 0) > 5 ? '#10b981' : '#ef4444' ?>;"></span>
-                                <span style="font-size:9px; font-weight:700; color:#94a3b8;"><?= $p['stock'] ?? 0 ?> In Stock</span>
+                                <span style="font-size:9px; font-weight:700; color:#94a3b8;">
+                                    <?= $p['stock'] ?? 0 ?> <?= ($lang === 'ur') ? 'اسٹاک میں' : 'In Stock' ?>
+                                </span>
                             </div>
                         </div>
                         <div class="add-icon-btn">
@@ -59,11 +68,9 @@
 
 <script>
 function filterCategory(btn, cat) {
-    // UI Update
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    // Filtering Logic
     document.querySelectorAll('.product-card').forEach(card => {
         const cardCat = card.dataset.category || 'All';
         card.style.display = (cat === 'All' || cardCat === cat) ? 'flex' : 'none';
@@ -73,7 +80,9 @@ function filterCategory(btn, cat) {
 document.getElementById('productSearch').addEventListener('input', function() {
     const q = this.value.toLowerCase();
     document.querySelectorAll('.product-card').forEach(card => {
-        card.style.display = (card.dataset.name || '').includes(q) ? 'flex' : 'none';
+        const nameEn = card.dataset.nameEn || '';
+        const nameUr = card.dataset.nameUr || '';
+        card.style.display = (nameEn.includes(q) || nameUr.includes(q)) ? 'flex' : 'none';
     });
 });
 </script>

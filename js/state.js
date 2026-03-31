@@ -1,18 +1,8 @@
 const POSState = {
-    // --- Sale/Cart State ---
     cart: [],
     taxRate: 0.05, 
+    language: currentLang || 'en',
 
-    // --- Inventory State (New) ---
-    inventory: [],
-    categories: [],
-    filters: {
-        search: '',
-        category: 'All',
-        status: 'all' // 'all', 'low', 'out'
-    },
-
-    // --- Existing Cart Functions ---
     addToCart(product) {
         const existingItem = this.cart.find(item => item.id === product.id);
         if (existingItem) {
@@ -20,7 +10,7 @@ const POSState = {
         } else {
             this.cart.push({
                 id: product.id,
-                name: product.name_en || product.name, // Support for our new naming
+                name: this.language === 'ur' ? (product.name_ur || product.name) : (product.name_en || product.name),
                 image: product.image ? `assets/images/products/${product.image}` : 'assets/images/products/placeholder.png', 
                 price: parseFloat(product.sale_price || product.price),
                 qty: 1 
@@ -37,7 +27,6 @@ const POSState = {
         return { subtotal, tax, discount, total };
     },
 
-    // --- Inventory State Functions (New) ---
     setInventory(data) {
         this.inventory = data;
         const countEl = document.getElementById('total-product-count');
@@ -46,11 +35,11 @@ const POSState = {
 
     getFilteredProducts() {
         return this.inventory.filter(product => {
+            const searchTerm = this.filters.search.toLowerCase();
             const matchesSearch = 
-                product.name_en.toLowerCase().includes(this.filters.search.toLowerCase()) ||
-                (product.name_ur && product.name_ur.includes(this.filters.search)) ||
-                product.sku.toLowerCase().includes(this.filters.search.toLowerCase()) ||
-                (product.brand && product.brand.toLowerCase().includes(this.filters.search.toLowerCase()));
+                product.name_en.toLowerCase().includes(searchTerm) ||
+                (product.name_ur && product.name_ur.includes(searchTerm)) ||
+                product.sku.toLowerCase().includes(searchTerm);
 
             const matchesCategory = 
                 this.filters.category === 'All' || 
@@ -67,7 +56,6 @@ const POSState = {
         });
     },
 
-    // --- Global UI Sync ---
     updateQty(productId, newQty) {
         const item = this.cart.find(item => item.id === productId);
         if (item) {
@@ -85,7 +73,6 @@ const POSState = {
     updateUI() {
         if (typeof renderCart === 'function') renderCart();
         if (typeof renderTotals === 'function') renderTotals();
-        // Agar inventory screen par hain to grid bhi refresh ho sakti hai
         if (typeof InventoryManager !== 'undefined' && typeof InventoryManager.renderGrid === 'function') {
             InventoryManager.renderGrid();
         }

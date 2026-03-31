@@ -6,20 +6,19 @@
     </div>
 
     <input type="text" 
-           id="inventory-search"
-           class="inv-search-input"
-           placeholder="Search by name, SKU, or brand..."
-           oninput="InventoryManager.handleSearch(this.value)"
-           autocomplete="off">
+            id="inventory-search"
+            class="inv-search-input"
+            placeholder="<?= ($lang === 'ur') ? 'نام، SKU، یا برانڈ سے تلاش کریں...' : 'Search by name, SKU, or brand...' ?>"
+            oninput="InventoryManager.handleSearch(this.value)"
+            autocomplete="off">
 
-    <div class="search-shortcuts">
+    <div class="search-shortcuts" style="<?= ($lang === 'ur') ? 'display:none;' : '' ?>">
         <kbd class="shortcut-key">Ctrl</kbd>
         <kbd class="shortcut-key">K</kbd>
     </div>
 </div>
 
 <script>
-// Optional: Global shortcut listener for Ctrl+K
 document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
