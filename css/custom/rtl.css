@@ -1,1 +1,39 @@
-/* Urdu support */
+body {
+  font-family: var(--font-urdu);
+  direction: rtl;
+}
+
+.flex {
+  flex-direction: row-reverse;
+}
+
+.text-left {
+  text-align: right;
+}
+
+.text-right {
+  text-align: left;
+}
+
+.ml-auto {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.mr-auto {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+input,
+textarea {
+  text-align: right;
+}
+
+svg {
+  transform: scaleX(-1);
+}
+
+.no-mirror {
+  transform: scaleX(1);
+}

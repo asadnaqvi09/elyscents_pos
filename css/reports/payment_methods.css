@@ -1,0 +1,47 @@
+/* --- Payment Methods Section --- */
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.payment-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.payment-progress-bg {
+  height: 8px;
+  width: 100%;
+  background-color: #f1f5f9;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.payment-progress-fill {
+  height: 100%;
+  width: 0%; /* JS will update this */
+  border-radius: 9999px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.payment-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .payment-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

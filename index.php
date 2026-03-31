@@ -1,34 +1,45 @@
 <?php
+// Prevent browser caching after logout
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 require_once 'config/database.php';
 require_once 'config/environment.php';
 
+// Strict Session Check: Agar login nahi toh seedha login.php par redirect
 if (!isset($_SESSION['user_id'])) {
     include 'screens/login.php';
     exit;
 }
+
 $page = $_GET['page'] ?? 'sale'; 
+$lang = $_SESSION['language'] ?? 'en';
+$isUrdu = ($lang === 'ur');
 ?>
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="<?php echo $lang; ?>" class="<?php echo $isUrdu ? 'dir-rtl' : ''; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Elyscents POS</title>
-    <link rel="stylesheet" href="css/output.css">
+    
+    <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/custom/print.css">
+    <?php if($isUrdu): ?> <link rel="stylesheet" href="css/custom/rtl.css"> <?php endif; ?>
+
+    <link rel="stylesheet" href="css/layout/top_bar.css">
+    <link rel="stylesheet" href="css/layout/bottom_bar.css">
+    
+    <link rel="stylesheet" href="css/more/more.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        .dir-rtl { direction: rtl; }
-    </style>
 </head>
-<body class="bg-background h-full flex flex-col overflow-hidden text-text-primary font-sans antialiased">
+<body class="app-wrapper">
 
     <?php include 'screens/components/layout/top_bar.php'; ?>
 
-    <main id="main-content" class="flex-1 relative overflow-hidden min-h-0">
+    <main id="main-content">
         <?php 
         switch ($page) {
             case 'sale':      include 'screens/dashboard.php'; break;
@@ -36,27 +47,16 @@ $page = $_GET['page'] ?? 'sale';
             case 'customers': include 'screens/customers.php'; break;
             case 'reports':   include 'screens/reports.php'; break;
             case 'more':      include 'screens/more.php'; break;
+            case 'settings':  include 'screens/components/more/settings.php'; break;
+            case 'help':      include 'screens/components/more/help.php'; break;
             default:          include 'screens/dashboard.php'; break;
         }
         ?>
     </main>
 
     <?php include 'screens/components/layout/bottom_bar.php'; ?>
-    
-    <?php 
-        include 'screens/components/inventory/product_modal.php';
-        include 'screens/components/inventory/delete_confirm_modal.php';
-        include 'screens/components/customers/customer_modal.php';
-        include 'screens/components/customers/delete_customer_modal.php';
-    ?>
-
     <script src="js/state.js"></script>
     <script src="js/app.js"></script> 
-    <script src="js/settings_handler.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/checkout.js"></script>
-    <script src="js/ui-helpers.js"></script>
-    <?php if ($page === 'inventory'): ?> <script src="js/inventory-manager.js"></script> <?php endif; ?>
-    <?php if ($page === 'customers'): ?> <script src="js/customer-manager.js"></script> <?php endif; ?>
+    <script src="js/checkout.js"></script>=
 </body>
 </html>

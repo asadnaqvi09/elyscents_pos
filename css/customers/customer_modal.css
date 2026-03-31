@@ -1,0 +1,96 @@
+/* --- Modal Containers --- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+}
+
+.modal-card {
+  background: white;
+  width: 100%;
+  max-width: 660px;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+  padding: 26px 32px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal-body {
+  padding: 0 32px 30px;
+  overflow-y: auto;
+  max-height: 75vh;
+}
+
+/* --- Form Elements --- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-caps {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* --- Select Styling --- */
+.select-wrapper {
+  position: relative;
+}
+
+.select-custom {
+  width: 100%;
+  padding: 13px 40px 13px 15px;
+  border-radius: 12px;
+  border: 1.5px solid #ede9fe;
+  background: #f5f3ff;
+  font-size: 14px;
+  font-weight: 700;
+  color: #7c3aed;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* --- Delete Modal Specifics --- */
+.delete-card {
+  max-width: 400px;
+  padding: 32px;
+  text-align: center;
+}
+
+.delete-icon-box {
+  width: 64px;
+  height: 64px;
+  background: #fef2f2;
+  color: #ef4444;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}

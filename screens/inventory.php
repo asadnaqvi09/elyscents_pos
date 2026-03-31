@@ -1,12 +1,23 @@
-<div id="inventory-parent" style="display:flex; flex-direction:column; height:100%; background:#f8fafc; overflow:hidden; font-family:'Inter', sans-serif;">
+<link rel="stylesheet" href="css/inventory/inventory.css">
+<link rel="stylesheet" href="css/inventory/inventory_header.css">
+<link rel="stylesheet" href="css/inventory/inventory_search.css">
+<link rel="stylesheet" href="css/inventory/inventory_alert.css">
+<link rel="stylesheet" href="css/inventory/product_modal.css">
+<link rel="stylesheet" href="css/inventory/delete_confirm_modal.css">
+
+<div id="inventory-parent">
     <?php include 'screens/components/inventory/inventory_header.php'; ?>
-    <div style="flex-shrink:0; padding:15px 40px; border-bottom:1px solid #f1f5f9;">
+    <div class="inventory-search-container">
         <?php include 'screens/components/inventory/inventory_search.php'; ?>
     </div>
-    <div id="inventory-scroll-area" style="flex:1; overflow-y:auto; padding:28px 40px 100px;">
-        <div id="inventory-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:24px;">
-            <!-- Populated by InventoryManager.fetchProducts() via AJAX -->
-        </div>
+    <div id="inventory-scroll-area">
+        <div id="inventory-grid">
+            </div>
     </div>
-
+    <?php
+        include 'screens/components/inventory/product_modal.php';
+        include 'screens/components/inventory/delete_confirm_modal.php';
+    ?>;
 </div>
+
+<script src="js/inventory-manager.js"></script> 

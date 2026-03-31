@@ -1,0 +1,48 @@
+.sales-layout {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  height: calc(
+    100vh - 128px
+  ); /* Top bar (64px) + Bottom bar (64px) nikaal kar */
+  width: 100%;
+  overflow: hidden;
+}
+
+.sales-section {
+  background: var(--white);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Specific Widths for Sales Sections */
+.section-products {
+  flex: 0 0 40%; /* 40% Fixed Width */
+}
+
+.section-cart {
+  flex: 0 0 30%; /* 30% Fixed Width */
+}
+
+.section-actions {
+  flex: 0 0 30%; /* 30% Fixed Width */
+}
+
+/* Responsive adjustment for tablets */
+@media (max-width: 1024px) {
+  .sales-layout {
+    flex-wrap: wrap;
+    overflow-y: auto;
+  }
+  .section-products,
+  .section-cart,
+  .section-actions {
+    flex: 1 1 100%;
+    height: auto;
+    min-height: 400px;
+  }
+}

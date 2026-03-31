@@ -1,22 +1,25 @@
-<div style="height: 100%; display: flex; flex-direction: column; padding: 24px; overflow-y: auto; background-color: #f8fafc; font-family: 'Inter', sans-serif;">
+<link rel="stylesheet" href="css/reports/reports.css">
+<link rel="stylesheet" href="css/reports/kpi_cards.css">
+<link rel="stylesheet" href="css/reports/charts_section.css">
+<link rel="stylesheet" href="css/reports/payment_methods.css">
+
+
+<div class="reports-parent no-scrollbar">
     
-    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 32px;">
+    <div class="reports-header">
         <div>
-            <h1 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0; letter-spacing: -0.5px;">Reports & Analytics</h1>
-            <p style="font-size: 14px; color: #64748b; font-weight: 600; margin: 4px 0 0 0;" class="Urdu-font">فروخت کی کارکردگی کا جائزہ</p>
+            <h1 class="reports-title">Reports & Analytics</h1>
+            <p class="reports-subtitle Urdu-font">فروخت کی کارکردگی کا جائزہ</p>
         </div>
 
-        <div style="display: flex; background: #ffffff; padding: 4px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-            <button id="btn-today" onclick="ReportsManager.fetchAnalytics('today')" 
-                style="padding: 8px 24px; border-radius: 8px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #64748b;" class="range-btn">
+        <div class="range-picker">
+            <button id="btn-today" class="range-btn active" onclick="ReportsManager.fetchAnalytics('today')">
                 Today
             </button>
-            <button id="btn-week" onclick="ReportsManager.fetchAnalytics('week')" 
-                style="padding: 8px 24px; border-radius: 8px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #64748b;" class="range-btn">
+            <button id="btn-week" class="range-btn" onclick="ReportsManager.fetchAnalytics('week')">
                 Week
             </button>
-            <button id="btn-month" onclick="ReportsManager.fetchAnalytics('month')" 
-                style="padding: 8px 24px; border-radius: 8px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #64748b;" class="range-btn">
+            <button id="btn-month" class="range-btn" onclick="ReportsManager.fetchAnalytics('month')">
                 Month
             </button>
         </div>
@@ -26,11 +29,11 @@
         <?php include 'components/reports/kpi_cards.php'; ?>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 32px;">
+    <div class="reports-grid-section">
         <?php include 'components/reports/charts_section.php'; ?>
     </div>
 
-    <div style="background: white; border-radius: 24px; border: 1px solid #f1f5f9; padding: 24px;">
+    <div class="reports-white-card">
         <?php include 'components/reports/payment_methods.php'; ?>
     </div>
 
@@ -38,9 +41,3 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="js/reports-manager.js"></script>
-
-<style>
-    /* Custom Scrollbar hide but functional */
-    ::-webkit-scrollbar { width: 0px; background: transparent; }
-    .range-btn:hover { background-color: #f1f5f9; }
-</style>

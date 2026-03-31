@@ -1,15 +1,28 @@
-<div id="customer-parent" style="display:flex; flex-direction:column; height:100%; background:#f8fafc; overflow:hidden; font-family:'Inter', sans-serif;">
+<link rel="stylesheet" href="css/customers/customers.css">
+<link rel="stylesheet" href="css/customers/customer_header.css">
+<link rel="stylesheet" href="css/customers/customer_modal.css">
+<link rel="stylesheet" href="css/customers/customer_search.css">
+
+<div id="customer-parent">
+    
     <?php include 'screens/components/customers/customer_header.php'; ?>
-    <div style="flex-shrink:0; padding:15px 40px; border-bottom:1px solid #f1f5f9;">
+
+    <div class="customer-search-wrapper">
         <?php include 'screens/components/customers/customer_search.php'; ?>
     </div>
-    <div id="customer-scroll-area" class="no-scrollbar" style="flex:1; overflow-y:auto; padding:28px 40px 100px;">
-        <div id="customer-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:24px;">
+
+    <div id="customer-scroll-area" class="no-scrollbar">
+        <div id="customer-grid">
             </div>
     </div>
+
+    <?php include 'screens/components/customers/customer_modal.php'; ?>
+    <?php include 'screens/components/customers/delete_customer_modal.php'; ?>
+
 </div>
+
+<script src="js/customer-manager.js"></script>
 <script>
-    // Agar hum page shift kar rahay hain, to ensure karein ke Manager init ho jaye
     if (typeof CustomerManager !== 'undefined') {
         CustomerManager.init();
     }

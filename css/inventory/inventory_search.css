@@ -1,0 +1,58 @@
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-icon-wrapper {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.inv-search-input {
+  width: 100%;
+  padding: 15px 90px 15px 50px; /* Right padding adjusted for shortcuts */
+  border-radius: 16px;
+  background: #f3f3f5;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.inv-search-input:focus {
+  background: var(--white);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08);
+}
+
+/* Shortcut Keys Styling */
+.search-shortcuts {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.shortcut-key {
+  padding: 3px 7px;
+  background: var(--white);
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  font-family: var(--font-mono, monospace);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}

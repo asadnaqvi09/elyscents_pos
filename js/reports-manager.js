@@ -1,55 +1,74 @@
 /**
  * Reports Manager - Handles Analytics & Charts for Elyscents POS
- * Using ApexCharts for high-performance visualization
  */
-
 const ReportsManager = {
     salesChart: null,
     categoryChart: null,
 
-    // 1. Initialize Charts and Load Default Data
     init() {
         console.log("Reports Manager Initialized...");
         this.initSalesChart();
         this.initCategoryChart();
-        this.fetchAnalytics('today'); // Default load
+        this.fetchAnalytics('today'); 
     },
 
-    // 2. Bar Chart Setup (Sales by Hour)
+    // 1. Sales by Hour (Bar Chart)
     initSalesChart() {
         const options = {
             chart: {
                 type: 'bar',
                 height: 300,
                 toolbar: { show: false },
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Inter, sans-serif',
+                animations: { enabled: true, easing: 'easeinout', speed: 800 }
             },
-            series: [{ name: 'Sales (Rs.)', data: [] }],
-            colors: ['#7C3AED'], // Purple theme
+            series: [{ name: 'Sales', data: [] }],
+            colors: ['#7C3AED'],
             plotOptions: {
-                bar: { borderRadius: 6, columnWidth: '50%' }
+                bar: { borderRadius: 6, columnWidth: '45%', distributed: false }
             },
             dataLabels: { enabled: false },
-            xaxis: { categories: [] },
-            yaxis: { labels: { formatter: (val) => `Rs. ${val}` } },
-            grid: { borderColor: '#f1f5f9' }
+            xaxis: { 
+                categories: [],
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+            },
+            yaxis: { 
+                labels: { 
+                    formatter: (val) => `Rs. ${val >= 1000 ? (val/1000).toFixed(1) + 'k' : val}` 
+                } 
+            },
+            grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
         };
 
         this.salesChart = new ApexCharts(document.querySelector("#sales-hour-chart"), options);
         this.salesChart.render();
     },
 
-    // 3. Pie Chart Setup (Category Breakdown)
+    // 2. Category Breakdown (Donut)
     initCategoryChart() {
         const options = {
             chart: { type: 'donut', height: 320, fontFamily: 'Inter, sans-serif' },
             series: [],
             labels: [],
-            colors: ['#10B981', '#7C3AED', '#F59E0B', '#94a3b8'], // Men, Women, Unisex, All
-            legend: { position: 'bottom' },
-            dataLabels: { enabled: true, formatter: (val) => `${Math.round(val)}%` },
+            colors: ['#10B981', '#7C3AED', '#F59E0B', '#94a3b8'], 
+            legend: { position: 'bottom', fontSize: '12px', fontWeight: 600 },
+            stroke: { width: 0 },
+            dataLabels: { enabled: true, dropShadow: { enabled: false } },
             plotOptions: {
-                pie: { donut: { size: '70%' } }
+                pie: { 
+                    donut: { 
+                        size: '75%',
+                        labels: {
+                            show: true,
+                            total: {
+                                show: true,
+                                label: 'Total Sales',
+                                formatter: (w) => 'Rs.' + w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString()
+                            }
+                        }
+                    } 
+                }
             }
         };
 
@@ -57,9 +76,7 @@ const ReportsManager = {
         this.categoryChart.render();
     },
 
-    // 4. Fetch Data from API
     async fetchAnalytics(range) {
-        // UI Feedback: Tab active state update
         this.updateTabUI(range);
 
         try {
@@ -68,58 +85,76 @@ const ReportsManager = {
 
             if (data.success) {
                 this.updateUI(data);
-            } else {
-                console.error("API Error:", data.message);
             }
         } catch (error) {
             console.error("Fetch Error:", error);
         }
     },
 
-    // 5. Update HTML Elements & Charts
     updateUI(data) {
-        // Update KPI Cards
-        document.querySelector("#stat-total-sales").innerText = `Rs. ${data.summary.total_sales.toLocaleString()}`;
-        document.querySelector("#stat-transactions").innerText = data.summary.transactions;
-        document.querySelector("#stat-low-stock").innerText = data.summary.low_stock;
-        document.querySelector("#stat-avg-sale").innerText = `Rs. ${Math.round(data.summary.avg_sale)}`;
+        // Update KPIs with safe navigation
+        const summary = data.summary || { total_sales: 0, transactions: 0, low_stock: 0, avg_sale: 0 };
+        
+        document.querySelector("#stat-total-sales").innerText = `Rs. ${summary.total_sales.toLocaleString()}`;
+        document.querySelector("#stat-transactions").innerText = summary.transactions;
+        document.querySelector("#stat-low-stock").innerText = summary.low_stock;
+        document.querySelector("#stat-avg-sale").innerText = `Rs. ${Math.round(summary.avg_sale).toLocaleString()}`;
 
-        // Update Sales Bar Chart
-        const hourLabels = data.hourly_sales.map(item => item.hour);
-        const hourValues = data.hourly_sales.map(item => item.sales);
-        this.salesChart.updateSeries([{ data: hourValues }]);
-        this.salesChart.updateOptions({ xaxis: { categories: hourLabels } });
-
-        // Update Category Pie Chart
-        const catLabels = data.categories.map(item => item.name);
-        const catValues = data.categories.map(item => item.value);
-        this.categoryChart.updateSeries(catValues);
-        this.categoryChart.updateOptions({ labels: catLabels });
-
-        // Update Top Products List (Simple HTML injection)
-        let topProductsHTML = '';
-        data.top_products.forEach(p => {
-            topProductsHTML += `
-                <div class="flex items-center justify-between text-xs border-b border-slate-50 pb-2">
-                    <span class="text-slate-700 font-medium">${p.product_name}</span>
-                    <span class="font-bold text-slate-900">${p.sold} sold</span>
-                </div>`;
+        // Update Charts
+        this.salesChart.updateSeries([{ 
+            data: data.hourly_sales.map(item => item.sales) 
+        }]);
+        this.salesChart.updateOptions({ 
+            xaxis: { categories: data.hourly_sales.map(item => item.hour) } 
         });
-        document.querySelector("#top-products-list").innerHTML = topProductsHTML || 'No data';
+
+        this.categoryChart.updateSeries(data.categories.map(item => item.value));
+        this.categoryChart.updateOptions({ labels: data.categories.map(item => item.name) });
+
+        // Update Payment Progress Bars (New logic for animations)
+        this.updatePaymentMethods(data.payment_methods);
+
+        // Update Top Products (Clean Template)
+        this.renderTopProducts(data.top_products);
+    },
+
+    updatePaymentMethods(methods) {
+        if (!methods) return;
+        
+        methods.forEach(m => {
+            const type = m.method.toLowerCase(); // 'cash' or 'card'
+            const percent = m.percentage + '%';
+            
+            const bar = document.querySelector(`#pay-${type}-bar`);
+            const pctLabel = document.querySelector(`#pay-${type}-percent`);
+            const amtLabel = document.querySelector(`#pay-${type}-amount`);
+
+            if (bar) bar.style.width = percent;
+            if (pctLabel) pctLabel.innerText = percent;
+            if (amtLabel) amtLabel.innerText = `Rs. ${m.amount.toLocaleString()}`;
+        });
+    },
+
+    renderTopProducts(products) {
+        const container = document.querySelector("#top-products-list");
+        if (!container) return;
+
+        container.innerHTML = products.length > 0 
+            ? products.map(p => `
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f8fafc;">
+                    <span style="font-size: 13px; font-weight: 600; color: #334155;">${p.product_name}</span>
+                    <span style="font-size: 12px; font-weight: 800; color: #7c3aed; background: #f5f3ff; padding: 2px 8px; border-radius: 6px;">${p.sold}</span>
+                </div>
+            `).join('')
+            : '<p style="font-size:12px; color:#94a3b8; text-align:center;">No recent sales</p>';
     },
 
     updateTabUI(range) {
-        document.querySelectorAll('.range-btn').forEach(btn => {
-            btn.classList.remove('bg-purple-600', 'text-white', 'shadow-md');
-            btn.classList.add('text-slate-600');
-        });
+        document.querySelectorAll('.range-btn').forEach(btn => btn.classList.remove('active'));
         const activeBtn = document.querySelector(`#btn-${range}`);
-        if (activeBtn) {
-            activeBtn.classList.add('bg-purple-600', 'text-white', 'shadow-md');
-            activeBtn.classList.remove('text-slate-600');
-        }
+        if (activeBtn) activeBtn.classList.add('active');
     }
 };
 
-// Start when DOM is ready
+// Start initialization
 document.addEventListener('DOMContentLoaded', () => ReportsManager.init());

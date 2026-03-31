@@ -1,0 +1,81 @@
+.delete-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+}
+
+.delete-modal-content {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.delete-modal-body {
+  padding: 32px 32px 24px;
+  text-align: center;
+}
+
+.delete-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  background: #fef2f2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.delete-title {
+  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 900;
+  color: #1e293b;
+}
+
+.delete-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.delete-product-highlight {
+  color: #1e293b;
+}
+
+.delete-modal-footer {
+  padding: 0 32px 28px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-delete-confirm {
+  flex: 1;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-delete-confirm:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(239, 68, 68, 0.4);
+}

@@ -1,0 +1,58 @@
+:root {
+  --primary: #9333ea;
+  --bg-main: #f8fafc;
+  --text-primary: #1e293b;
+  --border: #e2e8f0;
+  --font-sans: "Inter", sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main#main-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Direction Utilities */
+.dir-rtl {
+  direction: rtl;
+  font-family: var(--font-urdu);
+}

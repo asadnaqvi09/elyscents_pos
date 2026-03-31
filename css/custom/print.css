@@ -5,54 +5,93 @@
 }
 
 @media print {
-  body * {
-    visibility: hidden;
+  /* Poori body aur screen elements ko hide karna layout disturb kiye baghair */
+  body > *:not(#receipt-modal) {
+    display: none !important;
   }
-  #receipt-modal,
-  #receipt-modal * {
-    visibility: visible;
+
+  body {
+    background: white;
+    margin: 0;
+    padding: 0;
   }
+
   #receipt-modal {
+    display: block !important;
     position: absolute;
     left: 0;
     top: 0;
     width: 80mm;
     margin: 0;
     padding: 0;
-    display: block !important;
+    visibility: visible;
   }
+
   @page {
-    size: auto;
-    margin: 0mm;
+    size: 80mm auto;
+    margin: 0;
   }
 }
 
+/* Base Styles for Receipt (Screen and Print) */
 .receipt-container {
   width: 80mm;
-  padding: 5mm;
+  padding: 4mm;
   font-family: "Courier New", Courier, monospace;
   color: #000;
+  background: #fff;
 }
 
 .receipt-header {
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
+
+.receipt-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.receipt-header p {
+  font-size: 12px;
+  margin: 2px 0;
+}
+
 .receipt-items {
   width: 100%;
   border-top: 1px dashed #000;
   border-bottom: 1px dashed #000;
   margin: 10px 0;
+  padding: 5px 0;
 }
+
 .receipt-row {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  margin: 3px 0;
+  margin: 4px 0;
 }
+
+.receipt-footer {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 11px;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
 .receipt-total {
   font-weight: bold;
-  font-size: 14px;
-  border-top: 1px solid #000;
-  padding-top: 5px;
+  font-size: 15px;
+  border-top: 1px double #000;
+  padding-top: 6px;
+  margin-top: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
 }

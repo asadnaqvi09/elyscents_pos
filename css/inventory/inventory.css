@@ -1,0 +1,39 @@
+#inventory-parent {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 128px); /* Top & Bottom bar exclude kar ke */
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.inventory-search-container {
+  flex-shrink: 0;
+  padding: 15px 40px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+#inventory-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 40px 100px;
+}
+
+#inventory-grid {
+  display: grid;
+  /* Responsive Grid: Cards minimum 300px rahenge */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* Custom Scrollbar for Inventory Area */
+#inventory-scroll-area::-webkit-scrollbar {
+  width: 6px;
+}
+#inventory-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+#inventory-scroll-area::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}

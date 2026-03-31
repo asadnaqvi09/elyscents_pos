@@ -7,14 +7,24 @@ try {
     die("Error: " . $e->getMessage());
 }
 ?>
-<div class="w-full p-4 flex gap-4 overflow-hidden" style="height: 88%">
-    <section style="width:40%; background:#fff; border-radius:24px; border:1px solid #e2e8f0; box-shadow:0 1px 4px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column;">
+
+<link rel="stylesheet" href="css/sales/sales.css">
+<link rel="stylesheet" href="css/sales/product_grid.css">
+<link rel="stylesheet" href="css/sales/actions_buttons.css">
+<link rel="stylesheet" href="css/sales/cart_system.css">
+
+<div class="sales-layout">
+    <section class="sales-section section-products">
         <?php include __DIR__ . '/components/sale/product_grid.php'; ?>
     </section>
-    <section style="width:30%; background:#fff; border-radius:24px; border:1px solid #e2e8f0; box-shadow:0 1px 4px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column;">
+
+    <section class="sales-section section-cart">
         <?php include __DIR__ . '/components/sale/cart_system.php'; ?>
     </section>
-    <section style="width:30%; background:#fff; border-radius:24px; border:1px solid #e2e8f0; box-shadow:0 1px 4px rgba(0,0,0,0.04); overflow:hidden; display:flex; flex-direction:column;">
+
+    <section class="sales-section section-actions">
         <?php include __DIR__ . '/components/sale/actions_buttons.php'; ?>
     </section>
 </div>
+
+<script src="js/cart.js"></script>

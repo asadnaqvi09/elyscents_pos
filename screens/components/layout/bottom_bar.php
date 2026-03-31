@@ -1,4 +1,4 @@
-<footer class="h-16 bg-surface border-t border-border fixed bottom-0 w-full flex items-center justify-around px-2 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] z-50">
+<footer class="bottom-footer">
     <?php
     $nav_items = [
         ['id' => 'sale', 'label' => 'Sale', 'icon' => '🛍️'],
@@ -10,12 +10,11 @@
     foreach ($nav_items as $item):
         $isActive = ($page === $item['id']);
     ?>
-        <a href="?page=<?= $item['id'] ?>" 
-           class="flex flex-col items-center justify-center gap-1 w-20 transition-all duration-200 <?= $isActive ? 'text-primary' : 'text-text-secondary hover:text-text-primary' ?>">
-            <span class="text-xl <?= $isActive ? 'scale-110 drop-shadow-sm' : 'grayscale opacity-70' ?>"><?= $item['icon'] ?></span>
-            <span class="text-[10px] font-bold uppercase tracking-tighter"><?= $item['label'] ?></span>
+        <a href="?page=<?= $item['id'] ?>" class="nav-link <?= $isActive ? 'active' : '' ?>">
+            <span class="nav-icon <?= !$isActive ? 'grayscale' : '' ?>"><?= $item['icon'] ?></span>
+            <span class="nav-label"><?= $item['label'] ?></span>
             <?php if ($isActive): ?>
-                <div class="w-1 h-1 bg-primary rounded-full mt-0.5"></div>
+                <div class="active-indicator"></div>
             <?php endif; ?>
         </a>
     <?php endforeach; ?>
